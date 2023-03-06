@@ -1,22 +1,21 @@
-from fastapi import Depends, FastAPI, HTTPException, APIRouter
+from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
 import models
 import dependencies
 from database import engine
 
-from ..Admin import Models
-from ..Auth import Models
-from ..Home import Models
-from ..Posts import Models
-from ..Superuser import Models
+from ..Admin import AdminModels
+from ..Auth import AuthModels
+from ..Home import HomeModels
+from ..Posts import PostsModels
+from ..Superuser import SuperuserModels
 
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(dependencies=[Depends(dependencies.get_db)])
 
-app.include_router(app.Admin.Models.router)
-app.include_router(app.Auth.Models.router)
-app.include_router(app.Home.Models.router)
-app.include_router(app.Posts.Models.router)
-app.include_router(app.Superuser.Models.router)
-
+app.include_router(AdminModels.router)
+app.include_router(AuthModels.router)
+app.include_router(HomeModels.router)
+app.include_router(PostsModels.router)
+app.include_router(SuperuserModels.router)

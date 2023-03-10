@@ -13,7 +13,7 @@ async def detail_post(id, request: Request, db=Depends(dependencies.get_db)):
     return templates.TemplateResponse("post.html", {"request": request, "post": post})
 
 
-@router.get("/allposts", response_class=HTMLResponse)
-pass
+# @router.get("/allposts", response_class=HTMLResponse)
+# pass
 
 

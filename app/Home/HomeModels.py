@@ -12,8 +12,9 @@ router = APIRouter()
 
 
 @router.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    return templates.TemplateResponse("Home.html", {"request": request})
+async def root(request: Request, db=Depends(dependencies.get_db)):
+    recent_posts = db.query(models.Post).order_by(models.Post.id).limit(5).all()
+    return templates.TemplateResponse("Home.html", {"request": request, "posts": recent_posts})
 
 
 @router.get("/contact-us", response_class=HTMLResponse)

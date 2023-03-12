@@ -23,6 +23,7 @@ class Post(database.Base):
     __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True, index=True)
+    image = Column(String) #keeps the url to the image
     title = Column(String, index=True)
     body = Column(String, index=True)
     create_date = (String)

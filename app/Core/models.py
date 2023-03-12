@@ -1,9 +1,9 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from database import Base
+from . import database
 
 
-class User(Base):
+class User(database.Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -19,7 +19,7 @@ class User(Base):
     comments = relationship("Comment",back_populates="owner")
 
 
-class Post(Base):
+class Post(database.Base):
     __tablename__ = "posts"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -33,7 +33,7 @@ class Post(Base):
     owner = relationship("User", back_populates="posts")
 
 
-class Comment(Base):
+class Comment(database.Base):
     __tablename__ = "comments"
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String)
@@ -43,7 +43,7 @@ class Comment(Base):
     owner = relationship("User",back_populates="comments")
 
 
-class message(Base):
+class message(database.Base):
     __tablename__ = "messages"
     id = Column(Integer, primary_key=True, index=True)
     created_by = Column(String)

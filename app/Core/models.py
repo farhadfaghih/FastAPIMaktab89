@@ -26,8 +26,8 @@ class Post(database.Base):
     image = Column(String) #keeps the url to the image
     title = Column(String, index=True)
     body = Column(String, index=True)
-    create_date = (String)
-    view_count = (Integer)
+    create_date = Column(String)
+    view_count = Column(Integer)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="posts")

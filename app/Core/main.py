@@ -1,8 +1,8 @@
 from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
-import models
-import dependencies
-from database import engine
+from . import models
+from. import dependencies
+from . import database
 
 from ..Admin import AdminModels
 from ..Auth import AuthModels
@@ -11,7 +11,7 @@ from ..Posts import PostsModels
 from ..Superuser import SuperuserModels
 
 
-models.Base.metadata.create_all(bind=engine)
+database.Base.metadata.create_all(bind=database.engine)
 app = FastAPI(dependencies=[Depends(dependencies.get_db)])
 
 app.include_router(AdminModels.router)

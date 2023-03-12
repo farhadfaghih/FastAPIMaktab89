@@ -7,11 +7,11 @@ templates = Jinja2Templates(directory="Template")
 router = APIRouter(prefix="/auth")
 
 
-@router.get("/login", response_class=HTMLResponse)
-pass
-
-
-@router.get("/register", response_class=HTMLResponse)
-pass
-
-
+# @router.get("/login", response_class=HTMLResponse)
+# pass
+#
+#
+# @router.get("/register", response_class=HTMLResponse)
+# pass
+#
+#

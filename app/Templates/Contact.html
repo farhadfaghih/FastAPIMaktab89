@@ -24,13 +24,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="Home.html">Home</a>
+              <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="About.html">About</a>
+              <a class="nav-link" href="/about-us">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="Contact.html">Contact</a>
+              <a class="nav-link" href="/contact-us">Contact</a>
             </li>
           </ul>
         </div>
@@ -42,7 +42,7 @@
         <div class="row">
           <div class="col-md-8 mx-auto">
             <h1>Contact Us</h1>
-            <form action="#" method="post">
+            <form action="/contact-us" method="POST" onsubmit="login(event, this)">
               <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" class="form-control" id="name" name="name" required>
@@ -67,12 +67,34 @@
         <div class="row">
           <div class="col-md-8 mx-auto text-center">
             <p>Copyright &copy; 1401
-              <a href="Home.html">Group2Maktab89</a>.
+              <a href="/">Group2Maktab89</a>.
               Hamash Vas Mas.
             </p>
           </div>
         </div>
       </div>
     </footer>
+    <script>
+      async function login(event, el) {
+          event.preventDefault()
 
+          const response = await fetch(el.action, {
+              method: el.method,
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  created_by: el.querySelector("#name").value,
+                  email: el.querySelector("#email").value,
+                  description: el.querySelector("#message").value,
+              })
+        })
+
+        if (response.status === 200){
+          alert("Message sent successfully. Thank you for contacting us.")
+        } else {
+          alert("Invalid Input")
+        }
+      }
+    </script>
 

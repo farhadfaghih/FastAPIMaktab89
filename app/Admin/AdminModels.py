@@ -7,8 +7,8 @@ templates = Jinja2Templates(directory="Template")
 router = APIRouter(prefix="/admin")
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
-pass
+# @router.get("/dashboard", response_class=HTMLResponse)
+# pass
 
 
 

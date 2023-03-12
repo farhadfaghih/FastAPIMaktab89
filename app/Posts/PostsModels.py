@@ -17,5 +17,3 @@ async def detail_post(id, request: Request, db=Depends(dependencies.get_db)):
 async def all_posts(request: Request, db=Depends(dependencies.get_db)):
     posts = db.query(models.Post).all()
     return templates.TemplateResponse("posts.html", {"request": request, "posts": posts})
-
-

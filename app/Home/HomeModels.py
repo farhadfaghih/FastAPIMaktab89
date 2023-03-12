@@ -19,7 +19,7 @@ async def root(request: Request, db=Depends(dependencies.get_db)):
 
 @router.get("/contact-us", response_class=HTMLResponse)
 async def contactus(request: Request):
-    return templates.TemplateResponse("Contact.html", {"request": request})
+    return templates.TemplateResponse("Group2Maktab89 - Contact.html", {"request": request})
 
 
 @router.post("/contact-us")

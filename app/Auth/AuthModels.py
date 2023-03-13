@@ -1,9 +1,13 @@
-from fastapi import APIRouter, Request, Depends, HTTPException
+from fastapi import APIRouter, Request, Depends, HTTPException, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 from .Schema import LoginRequest, RegisterNewUser
-from ..Core import models, dependencies
+import sys
+sys.path.append("..")
+from app.Core.models import *
+from app.Core.dependencies import *
+
 
 BASE_PATH = Path(__file__).resolve().parent.parent
 templates = Jinja2Templates(directory=str(BASE_PATH / "Templates"))
@@ -16,8 +20,8 @@ async def login(request: Request):
 
 
 @router.post("/login")
-async def manage_user_login_request(login_request: LoginRequest, db=Depends(dependencies.get_db)):
-    user_check = db.query(models.User).filter(models.User.username == login_request.username).first()
+async def manage_user_login_request(login_request: LoginRequest, db=Depends(get_db)):
+    user_check = db.query(User).filter(User.username == login_request.username).first()
     if user_check and user_check.password == login_request.password:
         return True
     else:
@@ -30,8 +34,8 @@ async def register(request: Request):
 
 
 @router.post("/register")
-async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(dependencies.get_db)):
-    db_user = models.User(fullname=newuser.fullname, username=newuser.username, email=newuser.email
+async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_db)):
+    db_user = User(fullname=newuser.fullname, username=newuser.username, email=newuser.email
                           , password=newuser.password)
     db.add(db_user)
     db.commit()

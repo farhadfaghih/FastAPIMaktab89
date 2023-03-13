@@ -44,5 +44,5 @@ async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_
 
 
 @router.get("/logout")
-async def logout():
-    pass
+async def logout(response: Response):
+    response.delete_cookie("token")

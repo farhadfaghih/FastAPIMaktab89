@@ -37,3 +37,8 @@ async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(depe
     db.commit()
     db.refresh(db_user)
     return
+
+
+@router.get("/logout")
+async def logout():
+    pass

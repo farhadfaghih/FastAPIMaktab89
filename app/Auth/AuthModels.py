@@ -6,7 +6,7 @@ from pathlib import Path
 
 BASE_PATH = Path(__file__).resolve().parent.parent
 templates = Jinja2Templates(directory=str(BASE_PATH / "Templates"))
-router = APIRouter(prefix="/auth")
+router = APIRouter()
 
 
 @router.get("/login", response_class=HTMLResponse)

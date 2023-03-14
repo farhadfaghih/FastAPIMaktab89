@@ -6,33 +6,26 @@
     <title>Group2Maktab89 - Create new post</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
-    .bg-image-vertical {
-position: relative;
-overflow: hidden;
-background-repeat: no-repeat;
-background-position: right center;
-background-size: auto 100%;
-}
-
 @media (min-width: 1025px) {
 .h-custom-2 {
 height: 100%;
 }
 
 form {
-        margin: 0 auto; /* Added */
+    /* Added */
         float: none; /* Added */
-        margin-bottom: 10px; /* Added */
-        margin-top: 80;
+    /* Added */
+    margin: 80px auto 10px;
 }
 .card {
-        margin: 0 auto; /* Added */
+    /* Added */
         float: none; /* Added */
-        margin-bottom: 10px; /* Added */
+    /* Added */
+    margin: 0 auto 10px;
 }
 }
 
-</style>  
+</style>
 
 </head>
 
@@ -48,7 +41,7 @@ form {
           <form style="width: 700px;" action="/dashboard" method="POST" onsubmit="postnewpost(event, this)">
 
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;margin-top: 30px;">Create a post</h3>
-  
+
 
             <div class="form-outline mb-4">
               <input type="text" id="title" class="form-control form-control-lg" />
@@ -80,8 +73,8 @@ form {
 
 
 
-<div style="text-align: center;margin-top: 80">
-  <h2>Your latest posts</h2>
+<div style="text-align: center;margin-top: 80px">
+  <h2>Your posts</h2>
   <hr>
 
   {% for post in allposts %}
@@ -90,7 +83,7 @@ form {
       <div class="card-body text-body">
         <h5 class="card-title">{{post.title}}</h5>
         <p class="card-text ">{{post.body[0:50]}}</p>
-        <a href="#" class="btn btn-danger">Delete</a>
+        <button class="btn btn-danger" id="{{post.id}}" onclick="deletepost(event, this)">Delete</button>
       </div>
   </div>
   {% endfor %}
@@ -100,11 +93,8 @@ form {
 
 </div>
 
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 <script>
-
       async function postnewpost(event, el) {
           event.preventDefault()
 
@@ -125,6 +115,29 @@ form {
             window.location.replace("/")
         } else {
           alert("Invalid Input")
+        }
+      }
+    </script>
+<script>
+
+      async function deletepost(event,el) {
+          event.preventDefault()
+
+          const response = await fetch("/admin/dashboard", {
+              method: "DELETE",
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  post_id: el.id
+              })
+        })
+
+        if (response.status === 200){
+          alert("Post deleted successfully!!!")
+            window.location.replace("/admin/dashboard")
+        } else {
+          alert(response.status)
         }
       }
     </script>

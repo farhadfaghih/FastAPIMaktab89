@@ -3,17 +3,17 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pathlib import Path
 from .Schema import LoginRequest, RegisterNewUser
-import sys
-
-sys.path.append("..")
-from app.Core.models import *
-from app.Core.dependencies import get_db
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from typing import Union
 from pydantic import BaseModel
+import sys
+sys.path.append("..")
+from app.Core.models import *
+from app.Core.dependencies import get_db
+
 
 # pip install "python-jose[cryptography]"
 # pip install "passlib[bcrypt]"
@@ -28,7 +28,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-############################################################################################################################################################################
+#######################################################################################################################
 class Token(BaseModel):
     access_token: str
     token_type: str
@@ -93,7 +93,8 @@ async def login_for_access_token(response: Response, form_data: OAuth2PasswordRe
         data={"sub": user.username, "usertype": usertype}, expires_delta=access_token_expires
     )
     response.set_cookie(key="token", value=access_token)
-    return {"access_token": access_token, "token_type": "bearer"}
+    # return {"access_token": access_token, "token_type": "bearer"}
+    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
 
 
 @router.get("/users/me/")
@@ -101,7 +102,7 @@ async def read_users_me(user=Depends(get_user_from_cookie)):
     return user
 
 
-###########################################################################################################################################################################
+#######################################################################################################################
 
 
 @router.get("/login", response_class=HTMLResponse)
@@ -125,8 +126,7 @@ async def register(request: Request):
 
 @router.post("/register")
 async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_db)):
-    db_user = User(fullname=newuser.fullname, username=newuser.username, email=newuser.email
-                   , password=newuser.password)
+    db_user = User(fullname=newuser.fullname, username=newuser.username, email=newuser.email, password=newuser.password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

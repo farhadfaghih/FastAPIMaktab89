@@ -33,7 +33,7 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-def get_user_from_cookie(req):
+def get_user_from_cookie(req: Request):
     token = req.cookies.get("token")
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -94,9 +94,7 @@ async def login_for_access_token(response: Response,form_data: OAuth2PasswordReq
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/users/me/")
-async def read_users_me(request: Request):
-    
-    user = get_user_from_cookie(request)
+async def read_users_me(user = Depends(get_user_from_cookie)):
     return user
 
 

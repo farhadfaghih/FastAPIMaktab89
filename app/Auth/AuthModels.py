@@ -1,9 +1,10 @@
-from fastapi import Depends, APIRouter, Request, HTTPException, Response,status,Cookie
+from fastapi import Depends, APIRouter, Request, HTTPException, Response, status, Cookie
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from pathlib import Path
 from .Schema import LoginRequest, RegisterNewUser
 import sys
+
 sys.path.append("..")
 from app.Core.models import *
 from app.Core.dependencies import get_db
@@ -14,8 +15,8 @@ from datetime import datetime, timedelta
 from typing import Union
 from pydantic import BaseModel
 
-#pip install "python-jose[cryptography]"
-#pip install "passlib[bcrypt]"
+# pip install "python-jose[cryptography]"
+# pip install "passlib[bcrypt]"
 
 BASE_PATH = Path(__file__).resolve().parent.parent
 templates = Jinja2Templates(directory=str(BASE_PATH / "Templates"))
@@ -27,11 +28,11 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-
 ############################################################################################################################################################################
 class Token(BaseModel):
     access_token: str
     token_type: str
+
 
 def get_user_from_cookie(req: Request):
     token = req.cookies.get("token")
@@ -43,21 +44,22 @@ def get_user_from_cookie(req: Request):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
-        usertype :str = payload.get("usertype")
+        usertype: str = payload.get("usertype")
         print(payload.get("usertype"))
         if username is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
-    return {"username":username,"usertype":usertype}
-    
+    return {"username": username, "usertype": usertype}
 
-def authenticate_user( username: str, password: str,db):
+
+def authenticate_user(username: str, password: str, db):
     user_check = db.query(User).filter(User.username == username).first()
     if user_check:
         return user_check
     else:
         raise HTTPException(status_code=404)
+
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
     to_encode = data.copy()
@@ -70,36 +72,36 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     return encoded_jwt
 
 
-
-@router.post("/login",response_model=Token)
-async def login_for_access_token(response: Response,form_data: OAuth2PasswordRequestForm = Depends(),db = Depends(get_db)):
-    user = authenticate_user( form_data.username, form_data.password,db)
+@router.post("/login", response_model=Token)
+async def login_for_access_token(response: Response, form_data: OAuth2PasswordRequestForm = Depends(),
+                                 db=Depends(get_db)):
+    user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    if user.is_admin :
+    if user.is_admin:
         usertype = "admin"
     elif user.is_superuser:
         usertype = "superuser"
-    else : 
+    else:
         usertype = "normal"
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username,"usertype":usertype}, expires_delta=access_token_expires
+        data={"sub": user.username, "usertype": usertype}, expires_delta=access_token_expires
     )
     response.set_cookie(key="token", value=access_token)
     return {"access_token": access_token, "token_type": "bearer"}
 
+
 @router.get("/users/me/")
-async def read_users_me(user = Depends(get_user_from_cookie)):
+async def read_users_me(user=Depends(get_user_from_cookie)):
     return user
 
 
 ###########################################################################################################################################################################
-
 
 
 @router.get("/login", response_class=HTMLResponse)
@@ -124,15 +126,14 @@ async def register(request: Request):
 @router.post("/register")
 async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_db)):
     db_user = User(fullname=newuser.fullname, username=newuser.username, email=newuser.email
-                          , password=newuser.password)
+                   , password=newuser.password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
     return
 
 
-
-    
 @router.get("/logout")
-def logout(response:Response):
+def logout(response: Response):
     response.set_cookie(key="token", value="")
+    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)

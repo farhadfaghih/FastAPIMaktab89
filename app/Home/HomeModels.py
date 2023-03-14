@@ -14,7 +14,6 @@ router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
 async def root(request: Request, db=Depends(get_db)):
-    # recent_posts = db.query(Post).order_by(Post.id).limit(5).all()
     recent_posts = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id,
                             User.fullname).join(User, Post.owner_id == User.id).order_by(Post.id).limit(3).all()
     return templates.TemplateResponse("Home.html", {"request": request, "posts": recent_posts})

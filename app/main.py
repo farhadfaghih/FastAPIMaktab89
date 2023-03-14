@@ -13,7 +13,7 @@ from Posts import PostsModels
 from Superuser import SuperuserModels
 
 app = FastAPI(dependencies=[Depends(dependencies.get_db)])
-script_dir = os.path.dirname(__file__)[0:-5]
+script_dir = os.path.dirname(__file__)[0:-4]
 st_abs_file_path = os.path.join(script_dir, "app\static")
 app.mount("/static", StaticFiles(directory=st_abs_file_path), name="static")
 database.Base.metadata.create_all(bind=database.engine)

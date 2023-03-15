@@ -9,5 +9,5 @@ class NewPost(BaseModel):
 
 
 class PostID(BaseModel):
-    id: int
+    post_id: int
     # created_date: str

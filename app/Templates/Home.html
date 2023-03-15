@@ -58,15 +58,21 @@
         <li class="nav-item">
           <a class="nav-link" href="/allposts/">All posts</a>
         </li>
+        {%if usertype == "not_logged_in"%}
         <li class="nav-item">
           <a class="nav-link" href="/login">Register/Login</a>
         </li>
+        {%endif%}
+        {%if usertype == "admin" or usertype == "superuser"%}
         <li class="nav-item">
-          <a class="nav-link" href="/">Dashboard</a>
+          <a class="nav-link" href="{{usertype}}/dashboard">Dashboard</a>
         </li>
+        {%endif%}
+        {%if usertype != "not_logged_in"%}
         <li class="nav-item">
           <a class="nav-link" href="/logout">Logout</a>
         </li>
+        {%endif%}
       </ul>
     </div>
   </div>

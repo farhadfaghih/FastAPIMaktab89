@@ -13,7 +13,6 @@ class User(database.Base):
     password = Column(String)
     is_admin = Column(Boolean, default=False)
     is_superuser = Column(Boolean, default=False)
-    token = Column(String)
 
     posts = relationship("Post", back_populates="owner")
     comments = relationship("Comment", back_populates="owner")

@@ -36,6 +36,8 @@ class Token(BaseModel):
 
 def get_user_from_cookie(req: Request):
     token = req.cookies.get("token")
+    if token is None:
+        token = ""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -46,10 +48,8 @@ def get_user_from_cookie(req: Request):
         username: str = payload.get("sub")
         usertype: str = payload.get("usertype")
         print(payload.get("usertype"))
-        if username is None:
-            raise credentials_exception
     except JWTError:
-        raise credentials_exception
+        return {"username": "", "usertype": "not_logged_in"}
     return {"username": username, "usertype": usertype}
 
 
@@ -73,7 +73,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
 
 
 @router.post("/login", response_model=Token)
-async def login_for_access_token(response: Response, form_data: OAuth2PasswordRequestForm = Depends(),
+async def login_for_access_token(response: Response, form_data: LoginRequest,
                                  db=Depends(get_db)):
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
@@ -93,8 +93,7 @@ async def login_for_access_token(response: Response, form_data: OAuth2PasswordRe
         data={"sub": user.username, "usertype": usertype}, expires_delta=access_token_expires
     )
     response.set_cookie(key="token", value=access_token)
-    # return {"access_token": access_token, "token_type": "bearer"}
-    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.get("/users/me/")
@@ -126,6 +125,7 @@ async def register(request: Request):
 
 @router.post("/register")
 async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_db)):
+    print(newuser)
     db_user = User(fullname=newuser.fullname, username=newuser.username, email=newuser.email, password=newuser.password)
     db.add(db_user)
     db.commit()
@@ -133,7 +133,8 @@ async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_
     return
 
 
-@router.get("/logout")
-def logout(response: Response):
+@router.get("/logout", response_class=HTMLResponse)
+def logout(request: Request, response: Response):
+    response = RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
     response.set_cookie(key="token", value="")
-    return RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+    return response

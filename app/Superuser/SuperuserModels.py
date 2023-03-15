@@ -8,6 +8,7 @@ from .Schema import ModifyContent
 sys.path.append("..")
 from app.Core.dependencies import *
 from app.Core.models import *
+from app.Auth.AuthModels import get_user_from_cookie
 
 BASE_PATH = Path(__file__).resolve().parent.parent
 templates = Jinja2Templates(directory=str(BASE_PATH / "Templates"))
@@ -15,15 +16,17 @@ router = APIRouter(prefix="/superuser")
 
 
 @router.get("/dashboard", response_class=HTMLResponse)
-async def superuser_dashboard(request: Request, db=Depends(get_db)):
-    messages = db.query(message).all()
-    comments = db.query(Comment.id, Comment.description, Comment.date_created, Comment.confirmed, Comment.post_id,
-                        User.fullname, Post.title).join(User, Comment.owner_id == User.id).join(Post,
-                        Comment.post_id == Post.id).filter(Comment.confirmed == False).all()
-    posts = db.query(Post).all()
-    return templates.TemplateResponse("Superuser_dashboard.html",
-                                      {"request": request, "messages": messages, "comments": comments, "posts": posts})
-
+async def superuser_dashboard(request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
+    if user["usertype"] == "superuser":
+        messages = db.query(message).all()
+        comments = db.query(Comment.id, Comment.description, Comment.date_created, Comment.confirmed, Comment.post_id,
+                            User.fullname, Post.title).join(User, Comment.owner_id == User.id).join(Post,
+                            Comment.post_id == Post.id).filter(Comment.confirmed == False).all()
+        posts = db.query(Post).all()
+        return templates.TemplateResponse("Superuser_dashboard.html",
+                                        {"request": request, "messages": messages, "comments": comments, "posts": posts})
+    else:
+        return templates.TemplateResponse("error-403/dist/index.html", {"request": request})
 
 @router.delete("/messages")
 async def delete_a_message(message_id: ModifyContent, db=Depends(get_db)) -> None:

@@ -128,28 +128,25 @@
                 <div class="col-md-12 col-lg-10">
                   <div class="card text-dark">
                     <div class="card-body p-4">
-                      <h4 class="mb-0">Recent comments</h4>
-                      <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
-          
+
+                      {% for comment in comments %}
                       <div class="d-flex flex-start">
                         <div>
-                          <h6 class="fw-bold mb-1">Maggie Marsh</h6>
+                          <h6 class="fw-bold mb-1">{{comment.fullname}}</h6>
                           <div class="d-flex align-items-center mb-3">
                             <p class="mb-0">
-                              March 07, 2021
+                                {{ comment.date_created}}
                             </p>
-                            <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
-                            <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
-                            <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+{#                            <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>#}
+{#                            <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>#}
+{#                            <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>#}
                           </div>
                           <p class="mb-0">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's standard dummy text ever
-                            since the 1500s, when an unknown printer took a galley of type and
-                            scrambled it.
+                              {{comment.description}}.
                           </p>
                         </div>
                       </div>
+                      {% endfor %}
                     </div>
           
                    

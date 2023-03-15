@@ -48,18 +48,19 @@
       <h1 style="margin-bottom: 80px;"><b>Superusers dashboard</b></h1>
         <div class="row">
           <div class="col">
-            <h2>Latest posts</h2>
+            <h2>Posts</h2>
             <hr>
             
-
+            {% for post in posts %}
             <div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="../{{post.image}}" class="card-img-top" alt="post image">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-danger">Delete</a>
+                  <h5 class="card-title">{{post.title}}</h5>
+                  <p class="card-text">{{post.body[0:50]}}</p>
+                  <button class="btn btn-danger" id="{{post.id}}" onclick="deletepost(event, this)">Delete</button>
                 </div>
             </div>
+            {% endfor %}
 
 
 
@@ -67,35 +68,45 @@
 
           </div>
           <div class="col">
-            <h2>Latest comments</h2>
+            <h2>Comments</h2>
             <hr>
 
 
-
+            {% for comment in comments %}
             <div class="card w-75 mb-3">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-danger">Delete</a>
-                  <a href="#" class="btn btn-primary">Approve</a>
+                  <p class="card-text">{{comment.description}}</p>
+                </div>
+                <div class="card-footer text-muted">
+                  <p>{{comment.date_created}}</p>
+                  <p>on <a href="/post/{{comment.post_id}}">{{comment.title}}</a></p>
+                  <p> by {{comment.fullname}}</p>
+                  <button class="btn btn-danger" id="{{comment.id}}" onclick="deletecomment(event, this)">Delete</button>
+                  <button class="btn btn-primary" id="{{comment.id}}" onclick="approvecomment(event, this)">Approve</button>
+{#                  <a href="#" class="btn btn-danger">Delete</a>#}
+{#                  <a href="#" class="btn btn-primary">Approve</a>#}
                 </div>
             </div>
-
+            {% endfor %}
 
 
           </div>
           <div class="col">
-            <h2>Latest messages</h2>
+            <h2>Messages</h2>
             <hr>
-               
+            {% for message in messages %}
             <div class="card w-75 mb-3">
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <a href="#" class="btn btn-danger">Delete</a>
+                  <p class="card-text">{{message.description}}</p>
+                </div>
+                <div class="card-footer text-muted">
+                  <p>{{message.created_by}}</p>
+                  <p>({{message.email}})</p>
+                  <p>{{message.date_created}}</p>
+                  <button class="btn btn-danger" id="{{post.id}}" onclick="deletepost(event, this)">Delete</button>
                 </div>
             </div>
-
+            {% endfor %}
 
 
 
@@ -116,3 +127,97 @@
         </div>
       </div>
     </footer>
+<script>
+
+      async function deletemessage(event,el) {
+          event.preventDefault()
+
+          const response = await fetch("/superuser/messages", {
+              method: "DELETE",
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  id: el.id
+              })
+        })
+
+        if (response.status === 200){
+          alert("Message deleted successfully!!!")
+            window.location.replace("/superuser/dashboard")
+        } else {
+          alert("Could not delete...")
+        }
+      }
+    </script>
+
+<script>
+
+      async function deletecomment(event,el) {
+          event.preventDefault()
+
+          const response = await fetch("/superuser/comments", {
+              method: "DELETE",
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  id: el.id
+              })
+        })
+
+        if (response.status === 200){
+          alert("Comment deleted successfully!!!")
+            window.location.replace("/superuser/dashboard")
+        } else {
+          alert("Could not delete...")
+        }
+      }
+    </script>
+
+<script>
+
+      async function approvecomment(event,el) {
+          event.preventDefault()
+
+          const response = await fetch("/superuser/comments", {
+              method: "PATCH",
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  id: el.id
+              })
+        })
+
+        if (response.status === 200){
+          alert("Comment approved successfully!!!")
+            window.location.replace("/superuser/dashboard")
+        } else {
+          alert("Could not approved...")
+        }
+      }
+    </script>
+<script>
+
+      async function deletepost(event,el) {
+          event.preventDefault()
+
+          const response = await fetch("/superuser/posts", {
+              method: "DELETE",
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  id: el.id
+              })
+        })
+
+        if (response.status === 200){
+          alert("Post deleted successfully!!!")
+            window.location.replace("/superuser/dashboard")
+        } else {
+          alert(response.status)
+        }
+      }
+    </script>

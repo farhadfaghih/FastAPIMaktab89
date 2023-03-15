@@ -15,13 +15,13 @@ router = APIRouter()
 
 
 @router.get("/post/{id}", response_class=HTMLResponse)
-async def detail_post(id, request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
-    user_exist = user["usertype"]
-    if user_exist:
-        user_exist = db.query(User.fullname).filter(User.username == user["username"]).first()
+async def detail_post(id, request: Request, db=Depends(get_db)):#, user=Depends(get_user_from_cookie)):
+    # user_exist = user["usertype"]
+    # if user_exist:
+    #     user_exist = db.query(User.fullname).filter(User.username == user["username"]).first()
     post = db.query(Post).filter(Post.id == id).first()
     return templates.TemplateResponse("Post_with_detail.html",
-                                      {"request": request, "post": post, "usertype": user_exist})
+                                      {"request": request, "post": post})#, "usertype": user_exist})
 
 
 @router.post("/post")

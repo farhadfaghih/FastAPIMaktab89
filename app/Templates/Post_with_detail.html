@@ -13,13 +13,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Impact Bootstrap Template - Blog Details</title>
+  <title>Group2Maktab89 - Post</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="../../static/assets/img/favicon.png" rel="icon">
+  <link href="../../static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,14 +27,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link href="../../static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../../static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../../static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="../../static/assets/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Impact
@@ -61,17 +61,14 @@
             <article class="blog-details">
 
               <div class="post-img">
-                <img src="assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
+                <img src="../../{{post.image}}" alt="post image" class="img-fluid w-100">
               </div>
 
-              <h2 class="title">Dolorum optio tempore voluptas dignissimos cumque fuga qui quibusdam quia</h2>
+              <h2 class="title">{{post.title}}</h2>
               <div>
               
               <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni omnis sapiente exercitationem accusantium, pariatur officiis facilis architecto natus placeat, hic expedita? Delectus, dolorem beatae. Ipsum iste perspiciatis laudantium at facilis.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, cumque esse similique corporis aliquam sed, debitis, suscipit nemo sint quisquam ab? Accusamus aut itaque eos, omnis porro sed magni totam!
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum blanditiis doloremque quam saepe, optio odio vero ipsum ipsa reprehenderit laborum quae tempore ex corporis! Explicabo sint sed est et alias!
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus aspernatur deserunt, obcaecati provident totam iste exercitationem fugiat dolores ut, eveniet consectetur. Impedit consequuntur sit sapiente quas fugit doloribus neque iste.
+                  {{post.body}}
 
               </p>
               
@@ -91,7 +88,7 @@
 
 
 
-
+{% if usertype %}
           <section style=" background-color: rgb(31, 31, 31);margin-bottom: 0px;margin-top: 0px;padding-top: 0px;padding-bottom: 0px;">
             <div class="container my-5 py-5 text-dark">
               <div class="row d-flex justify-content-center">
@@ -101,15 +98,17 @@
                       <div class="d-flex flex-start w-100">
                         <div class="w-100">
                           <h5>Add a comment</h5>
-                          <div class="form-outline">
-                            <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
-                            <label class="form-label" for="textAreaExample">What is your view?</label>
-                          </div>
-                          <div class="d-flex justify-content-between mt-3">
-                            <button type="button" class="btn btn-danger">
-                              Send <i class="fas fa-long-arrow-alt-right ms-1"></i>
-                            </button>
-                          </div>
+                          <form action="/post" method="POST" id="{{post.id}}" onsubmit="sendcomment(event, this)">
+                              <div class="form-outline">
+                                <textarea class="form-control" id="comment" rows="4"></textarea>
+                                <label class="form-label" for="comment">What is your view?</label>
+                              </div>
+                              <div class="d-flex justify-content-between mt-3">
+                                <button type="submit" class="btn btn-danger">
+                                  Send <i class="fas fa-long-arrow-alt-right ms-1"></i>
+                                </button>
+                              </div>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -118,11 +117,7 @@
               </div>
             </div>
           </section>
-
-
-
-
-
+    {% endif %}
 
 
 
@@ -168,17 +163,40 @@
 
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="../../static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../static/assets/vendor/aos/aos.js"></script>
+  <script src="../../static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../../static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="../../static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../../static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../../static/assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="../../static/assets/js/main.js"></script>
+  <script>
 
+          async function sendcomment(event, el) {
+              event.preventDefault()
+
+              const response = await fetch(el.action, {
+                  method: el.method,
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      description: el.querySelector("#comment").value,
+                      post_id: el.querySelector("#id").value,
+                  })
+            })
+
+            if (response.status === 200){
+              alert("Comment sent successfully!!!")
+                window.location.replace("/post/{{post.id}}")
+            } else {
+              alert("Invalid Input")
+            }
+          }
+  </script>
 </body>
 
 </html>

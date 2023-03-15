@@ -31,16 +31,20 @@ class Post(database.Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="posts")
+    post_comments = relationship("Comment", back_populates="on_post")
 
 
 class Comment(database.Base):
     __tablename__ = "comments"
     id = Column(Integer, primary_key=True, index=True)
     description = Column(String)
+    date_created = Column(String)
     confirmed = Column(Boolean, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"))
+    post_id = Column(Integer, ForeignKey("posts.id"))
 
     owner = relationship("User", back_populates="comments")
+    on_post = relationship("Post", back_populates="post_comments")
 
 
 class message(database.Base):

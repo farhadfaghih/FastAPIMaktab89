@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from datetime import datetime
 from pathlib import Path
 from .Schema import NewPost, PostID
@@ -14,6 +15,7 @@ templates = Jinja2Templates(directory=str(BASE_PATH / "Templates"))
 router = APIRouter(prefix="/admin")
 
 
+# @router.get("/dashboard", response_class=HTMLResponse)
 @router.get("/dashboard")
 async def all_posts(request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
     if user["usertype"] != "normal":

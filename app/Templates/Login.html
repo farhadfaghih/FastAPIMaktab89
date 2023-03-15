@@ -66,27 +66,27 @@ height: 100%;
 </section>
     <script>
 
-      // async function login(event, el) {
-      //     event.preventDefault()
+      async function login(event, el) {
+          event.preventDefault()
 
-      //     const response = await fetch(el.action, {
-      //         method: el.method,
-      //         headers: {
-      //             'Content-Type': 'application/json'
-      //         },
-      //         body: JSON.stringify({
-      //             username: el.querySelector("#username").value,
-      //             password: el.querySelector("#password").value,
-      //         })
-      //   })
+          const response = await fetch(el.action, {
+              method: el.method,
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  username: el.querySelector("#username").value,
+                  password: el.querySelector("#password").value,
+              })
+        })
         
-      //   if (response.status === 200){
-      //     alert("Welcome")
-      //       window.location.replace("/")
-      //   } else {
-      //     alert("Invalid username or password")
-      //   }
-      // }
+        if (response.status === 200){
+          alert("Welcome")
+          window.location.replace("/")
+        } else {
+          alert("Invalid username or password")
+        }
+      }
     </script>
 
 </body></html>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Group2Maktab89</title>
+    <title>Group2Maktab89 - Home</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -55,6 +55,24 @@
         <li class="nav-item">
           <a class="nav-link" href="/contact-us">Contact</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/allposts/">All posts</a>
+        </li>
+        {%if usertype == "not_logged_in"%}
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Register/Login</a>
+        </li>
+        {%endif%}
+        {%if usertype == "admin" or usertype == "superuser"%}
+        <li class="nav-item">
+          <a class="nav-link" href="{{usertype}}/dashboard">Dashboard</a>
+        </li>
+        {%endif%}
+        {%if usertype != "not_logged_in"%}
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        {%endif%}
       </ul>
     </div>
   </div>
@@ -63,7 +81,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-8">
-      <h1>Welcome to Group2Maktab89</h1>
+      <br>
+      <h1>Welcome to Group2Maktab89 weblog</h1>
+      <br>
 
       {% for post in posts %}
       <div class="card mb-4">
@@ -74,10 +94,10 @@
         />
         <div class="card-body">
           <h2 class="card-title">{{post.title}}</h2>
-          <a href="post.html" class="btn btn-primary">Read More &rarr;</a>
+          <a href="/post/{{post.id}}" class="btn btn-primary">Read More &rarr;</a>
         </div>
         <div class="card-footer text-muted">
-          Posted on {{post.create_date}} by <a>{{post.fullname}}</a>
+          Posted on {{post.create_date}}
         </div>
       </div>
       {% endfor %}

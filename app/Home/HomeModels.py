@@ -5,6 +5,7 @@ from pathlib import Path
 from .Schema import Messages
 from app.Core.models import *
 from app.Core.dependencies import *
+from app.Auth.AuthModels import get_user_from_cookie
 from datetime import datetime
 
 BASE_PATH = Path(__file__).resolve().parent.parent
@@ -13,10 +14,10 @@ router = APIRouter()
 
 
 @router.get("/", response_class=HTMLResponse)
-async def root(request: Request, db=Depends(get_db)):
-    recent_posts = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id,
-                            User.fullname).join(User, Post.owner_id == User.id).order_by(Post.id).limit(3).all()
-    return templates.TemplateResponse("Home.html", {"request": request, "posts": recent_posts})
+async def root(request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
+    recent_posts = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id).order_by(
+        Post.id).limit(3).all()
+    return templates.TemplateResponse("Home.html", {"request": request, "posts": recent_posts, "usertype": user["usertype"]})
 
 
 @router.get("/contact-us", response_class=HTMLResponse)

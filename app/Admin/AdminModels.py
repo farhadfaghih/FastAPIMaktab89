@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends,File,UploadFile,Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from pathlib import Path
@@ -9,6 +9,8 @@ from app.Core.dependencies import *
 from app.Core.models import *
 from datetime import datetime
 from app.Auth.AuthModels import get_user_from_cookie
+#pip install python-multipart.
+
 
 BASE_PATH = Path(__file__).resolve().parent.parent
 templates = Jinja2Templates(directory=str(BASE_PATH / "Templates"))
@@ -25,10 +27,16 @@ async def all_posts(request: Request, db=Depends(get_db), user=Depends(get_user_
 
 
 @router.post("/dashboard")
-async def create_a_new_post(new_post: NewPost, db=Depends(get_db)) -> None:
-    db_new_post = Post(image=new_post.image, title=new_post.title, body=new_post.body,
-                       created_date=datetime.now().strftime("%b %d, %Y"))
-    db.add(db_new_post)
+async def create_a_new_post(file: UploadFile,title=Form(),body=Form(),db=Depends(get_db),user=Depends(get_user_from_cookie)) -> None:
+    usr = db.query(User).filter(User.username == user["username"]).first()
+    with open(f"static/{file.filename}","wb") as f:
+       f.write(file.file.read())
+    date = datetime.now()
+    post = Post(title=title,body=body,image = f"static/{file.filename}",create_date = date.strftime("%m/%d/%Y, %H:%M:%S"),owner=usr)
+    db.add(post)
     db.commit()
-    db.refresh(db_new_post)
-    return
+    db.refresh(post)
+    return "success"
+ 
+
+    

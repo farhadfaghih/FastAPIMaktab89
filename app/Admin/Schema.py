@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class NewPost(BaseModel):
-    image: str
+    # image: str
     title: str = Field(min_length=1)
     body: str = Field(min_length=1)
-    created_date: str
+    # created_date: str

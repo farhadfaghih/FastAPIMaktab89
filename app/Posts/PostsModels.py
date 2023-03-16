@@ -36,9 +36,9 @@ async def comment(user_comment: Comments, db=Depends(get_db), user=Depends(get_u
     :param user_comment: User Comment on a post that comes from front-end. Must check with pydantic model to validate.
     :return: None
     """
-    user_requesting = db.query(User.fullname).filter(User.username == user["username"]).first()[0]
-    db_comment = Comment(description=user_comment.description, date_created=date.today(),
-                         owner_id=user_requesting, post_id=user_comment.post_id)
+    user_requesting = db.query(User).filter(User.username == user["username"]).first()
+    post = db.query(Post).filter(Post.id == user_comment.post_id).first()
+    db_comment = Comment(description=user_comment.description, date_created=date.today(),owner=user_requesting,on_post=post)
     db.add(db_comment)
     db.commit()
     db.refresh(db_comment)

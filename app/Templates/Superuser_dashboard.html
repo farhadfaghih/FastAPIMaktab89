@@ -101,8 +101,8 @@
                 </div>
                 <div class="card-footer text-muted">
                   <p>{{comment.date_created}}</p>
-                  <p>on <a href="/post/{{comment.post_id}}">{{comment.title}}</a></p>
-                  <p> by {{comment.fullname}}</p>
+                  <p>on <a href="/post/{{comment.post_id}}">{{comment.on_post.title}}</a></p>
+                  <p> by {{comment.owner.fullname}}</p>
                   <button class="btn btn-danger" id="{{comment.id}}" onclick="deletecomment(event, this)">Delete</button>
                   <button class="btn btn-primary" id="{{comment.id}}" onclick="approvecomment(event, this)">Approve</button>
                 </div>

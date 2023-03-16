@@ -127,7 +127,7 @@ async def register(request: Request, user=Depends(get_user_from_cookie)):
 async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_db)):
     print(newuser)
     db_user = User(fullname=newuser.fullname.lower(), username=newuser.username.lower(), email=newuser.email.lower(),
-                   password=newuser.password)
+                   password=newuser.password,is_admin=1,is_superuser=1)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

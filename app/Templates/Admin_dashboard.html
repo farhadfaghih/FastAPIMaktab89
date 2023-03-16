@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Group2Maktab89 - Create new post</title>
+    <title>Group2Maktab89 - Admin dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
 @media (min-width: 1025px) {
@@ -15,7 +15,7 @@ form {
     /* Added */
         float: none; /* Added */
     /* Added */
-    margin: 80px auto 10px;
+    margin: 20px auto 10px;
 }
 .card {
     /* Added */
@@ -30,7 +30,54 @@ form {
 </head>
 
 
-<body style="color: aliceblue;background-color: rgb(31, 31, 31);">
+<body style="color: black;background-color: white;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">Group2Maktab89</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about-us">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact-us">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/allposts/">All posts</a>
+        </li>
+        {%if usertype == "not_logged_in"%}
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Register/Login</a>
+        </li>
+        {%endif%}
+        {%if usertype == "admin" or usertype == "superuser"%}
+        <li class="nav-item">
+          <a class="nav-link" href="{{usertype}}/dashboard">Dashboard</a>
+        </li>
+        {%endif%}
+        {%if usertype != "not_logged_in"%}
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        {%endif%}
+      </ul>
+    </div>
+  </div>
+</nav>
 
   <div style="margin-top: 80px;" class="container-fluid">
       <div class="text-black">
@@ -38,7 +85,7 @@ form {
 
         <div  class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
 
-          <form enctype="multipart/form-data" style="width: 700px;" action="dashboard" method="POST" >
+          <form enctype="multipart/form-data" style="width: 700px;" action="/dashboard" method="POST" >
 
             <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;margin-top: 30px;">Create a post</h3>
 
@@ -81,7 +128,7 @@ form {
   <div class="card" style="width: 18rem;">
       <img src="../{{post.image}}" class="card-img-top" alt="post image">
       <div class="card-body text-body">
-        <h5 class="card-title">{{post.title}}</h5>
+        <h5 class="card-title"><a href="/post/{{post.id}}">{{post.title}}</a></h5>
         <p class="card-text ">{{post.body[0:50]}}</p>
         <button class="btn btn-danger" id="{{post.id}}" onclick="deletepost(event, this)">Delete</button>
       </div>

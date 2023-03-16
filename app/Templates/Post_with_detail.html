@@ -46,7 +46,22 @@
 </head>
 
 <body>
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">Back to home</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
 
 
 
@@ -78,7 +93,10 @@
 
 
             </article><!-- End blog post -->
-          </section>
+          </div>
+        </div>
+      </div>
+    </section>
       
 
 
@@ -88,8 +106,8 @@
 
 
 
-{% if usertype %}
-          <section style=" background-color: rgb(31, 31, 31);margin-bottom: 0px;margin-top: 0px;padding-top: 0px;padding-bottom: 0px;">
+{%if usertype != "not_logged_in"%}
+          <section style=" background-color: rgb(31, 31, 31);margin-bottom: 0;margin-top: 0;padding-top: 0;padding-bottom: 0;">
             <div class="container my-5 py-5 text-dark">
               <div class="row d-flex justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-6">
@@ -117,12 +135,12 @@
               </div>
             </div>
           </section>
-    {% endif %}
+    {%endif%}
 
 
 
 
-          <section style=" background-color: rgb(31, 31, 31);margin-top: 0px;padding-top: 0px;">
+          <section style=" background-color: rgb(31, 31, 31);margin-top: 0;padding-top: 0;">
             <div class="container my-5 py-5">
               <div class="row d-flex justify-content-center">
                 <div class="col-md-12 col-lg-10">
@@ -182,12 +200,12 @@
                   },
                   body: JSON.stringify({
                       description: el.querySelector("#comment").value,
-                      post_id: el.querySelector("#id").value,
+                      post_id: el.id,
                   })
             })
 
             if (response.status === 200){
-              alert("Comment sent successfully!!!")
+              alert("Comment sent successfully. This comment will be shown after the administrator's approval")
                 window.location.replace("/post/{{post.id}}")
             } else {
               alert("Invalid Input")

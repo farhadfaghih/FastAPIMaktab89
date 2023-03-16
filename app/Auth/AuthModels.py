@@ -84,8 +84,8 @@ async def login_for_access_token(response: Response, form_data: LoginRequest,
         )
     if user.is_admin:
         usertype = "admin"
-    elif user.is_superuser:
-        usertype = "superuser"
+        if user.is_superuser:
+            usertype = "superuser"
     else:
         usertype = "normal"
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

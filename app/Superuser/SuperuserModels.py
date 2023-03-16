@@ -19,14 +19,17 @@ router = APIRouter(prefix="/superuser")
 async def superuser_dashboard(request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
     if user["usertype"] == "superuser":
         messages = db.query(message).all()
-        comments = db.query(Comment.id, Comment.description, Comment.date_created, Comment.confirmed, Comment.post_id,
-                            User.fullname, Post.title).join(User, Comment.owner_id == User.id).join(Post,
-                            Comment.post_id == Post.id).filter(Comment.confirmed == False).all()
+        comments = db.query(Comment.id, Comment.description, Comment.date_created, Comment.confirmed, Comment.owner_id,
+                            Comment.post_id, User.fullname, Post.title).join(User, Comment.owner_id == User.id).join(
+            Post, Comment.post_id == Post.id).filter(Comment.confirmed == False).all()
+        print(comments)
         posts = db.query(Post).all()
         return templates.TemplateResponse("Superuser_dashboard.html",
-                                        {"request": request, "messages": messages, "comments": comments, "posts": posts})
+                                          {"request": request, "messages": messages, "comments": comments,
+                                           "posts": posts})
     else:
         return templates.TemplateResponse("error-403/dist/index.html", {"request": request})
+
 
 @router.delete("/messages")
 async def delete_a_message(message_id: ModifyContent, db=Depends(get_db)) -> None:

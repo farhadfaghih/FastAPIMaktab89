@@ -10,10 +10,10 @@ from datetime import datetime, timedelta
 from typing import Union
 from pydantic import BaseModel
 import sys
+
 sys.path.append("..")
 from app.Core.models import *
 from app.Core.dependencies import get_db
-
 
 # pip install "python-jose[cryptography]"
 # pip install "passlib[bcrypt]"
@@ -54,7 +54,7 @@ def get_user_from_cookie(req: Request):
 
 
 def authenticate_user(username: str, password: str, db):
-    user_check = db.query(User).filter(User.username == username).first()
+    user_check = db.query(User).filter(User.username == username.lower()).first()
     if user_check:
         return user_check
     else:
@@ -105,8 +105,8 @@ async def read_users_me(user=Depends(get_user_from_cookie)):
 
 
 @router.get("/login", response_class=HTMLResponse)
-async def login(request: Request):
-    return templates.TemplateResponse("Login.html", {"request": request})
+async def login(request: Request, user=Depends(get_user_from_cookie)):
+    return templates.TemplateResponse("Login.html", {"request": request, "usertype": user["usertype"]})
 
 
 # @router.post("/login")
@@ -119,14 +119,15 @@ async def login(request: Request):
 
 
 @router.get("/register", response_class=HTMLResponse)
-async def register(request: Request):
-    return templates.TemplateResponse("Register.html", {"request": request})
+async def register(request: Request, user=Depends(get_user_from_cookie)):
+    return templates.TemplateResponse("Register.html", {"request": request, "usertype": user["usertype"]})
 
 
 @router.post("/register")
 async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_db)):
     print(newuser)
-    db_user = User(fullname=newuser.fullname, username=newuser.username, email=newuser.email, password=newuser.password)
+    db_user = User(fullname=newuser.fullname.lower(), username=newuser.username.lower(), email=newuser.email.lower(),
+                   password=newuser.password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

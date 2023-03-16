@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
@@ -15,19 +15,16 @@ router = APIRouter()
 
 
 @router.get("/post/{id}", response_class=HTMLResponse)
-async def detail_post(id, request: Request, db=Depends(get_db)):  # , user=Depends(get_user_from_cookie)):
-    # user_exist = user["usertype"]
-    # if user_exist:
-    #     user_exist = db.query(User.fullname).filter(User.username == user["username"]).first()
+async def detail_post(id, request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
     post = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id,
                     User.fullname).join(User, Post.owner_id == User.id).filter(Post.id == id).first()
     comments = db.query(Comment.id, Comment.description, Comment.date_created, Comment.confirmed, Comment.post_id,
                         User.fullname).join(User, Comment.owner_id == User.id).filter(
-        Comment.confirmed == True, Comment.post_id == id).all()
+        Comment.confirmed == True, Comment.post_id == id).order_by(Comment.date_created.desc()).all()
 
     return templates.TemplateResponse("Post_with_detail.html",
                                       {"request": request, "post": post,
-                                       "comments": comments})  # , "usertype": user_exist})
+                                       "comments": comments, "usertype": user["usertype"]})
 
 
 @router.post("/post")
@@ -39,8 +36,8 @@ async def comment(user_comment: Comments, db=Depends(get_db), user=Depends(get_u
     :param user_comment: User Comment on a post that comes from front-end. Must check with pydantic model to validate.
     :return: None
     """
-    user_requesting = db.query(User.fullname).filter(User.username == user["username"]).first()
-    db_comment = Comment(description=user_comment.description, date_created=datetime.now().strftime("%b %d, %Y"),
+    user_requesting = db.query(User.fullname).filter(User.username == user["username"]).first()[0]
+    db_comment = Comment(description=user_comment.description, date_created=date.today(),
                          owner_id=user_requesting, post_id=user_comment.post_id)
     db.add(db_comment)
     db.commit()
@@ -51,5 +48,5 @@ async def comment(user_comment: Comments, db=Depends(get_db), user=Depends(get_u
 @router.get("/allposts/", response_class=HTMLResponse)
 async def all_posts(request: Request, db=Depends(get_db)):
     allposts = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id,
-                        User.fullname).join(User, Post.owner_id == User.id).all()
+                        User.fullname).join(User, Post.owner_id == User.id).order_by(Post.create_date.desc()).all()
     return templates.TemplateResponse("Posts.html", {"request": request, "posts": allposts})

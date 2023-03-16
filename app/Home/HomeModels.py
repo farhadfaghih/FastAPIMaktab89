@@ -17,12 +17,13 @@ router = APIRouter()
 async def root(request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
     recent_posts = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id).order_by(
         Post.id).limit(3).all()
-    return templates.TemplateResponse("Home.html", {"request": request, "posts": recent_posts, "usertype": user["usertype"]})
+    return templates.TemplateResponse("Home.html",
+                                      {"request": request, "posts": recent_posts, "usertype": user["usertype"]})
 
 
 @router.get("/contact-us", response_class=HTMLResponse)
-async def contactus(request: Request):
-    return templates.TemplateResponse("Contact.html", {"request": request})
+async def contactus(request: Request, user=Depends(get_user_from_cookie)):
+    return templates.TemplateResponse("Contact.html", {"request": request, "usertype": user["usertype"]})
 
 
 @router.post("/contact-us")
@@ -42,5 +43,5 @@ async def sendmessage(messages: Messages, db=Depends(get_db)) -> None:
 
 
 @router.get("/about-us", response_class=HTMLResponse)
-async def aboutus(request: Request):
-    return templates.TemplateResponse("About.html", {"request": request})
+async def aboutus(request: Request, user=Depends(get_user_from_cookie)):
+    return templates.TemplateResponse("About.html", {"request": request, "usertype": user["usertype"]})

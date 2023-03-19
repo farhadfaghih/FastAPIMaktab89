@@ -106,7 +106,7 @@ async def read_users_me(user=Depends(get_user_from_cookie)):
 
 @router.get("/login", response_class=HTMLResponse)
 async def login(request: Request, user=Depends(get_user_from_cookie)):
-    return templates.TemplateResponse("Login.html", {"request": request, "usertype": user["usertype"]})
+    return templates.TemplateResponse("auth/login.html", {"request": request, "usertype": user["usertype"]})
 
 
 # @router.post("/login")
@@ -120,14 +120,13 @@ async def login(request: Request, user=Depends(get_user_from_cookie)):
 
 @router.get("/register", response_class=HTMLResponse)
 async def register(request: Request, user=Depends(get_user_from_cookie)):
-    return templates.TemplateResponse("Register.html", {"request": request, "usertype": user["usertype"]})
+    return templates.TemplateResponse("auth/register.html", {"request": request, "usertype": user["usertype"]})
 
 
 @router.post("/register")
 async def manage_user_register_request(newuser: RegisterNewUser, db=Depends(get_db)):
-    print(newuser)
     db_user = User(fullname=newuser.fullname.lower(), username=newuser.username.lower(), email=newuser.email.lower(),
-                   password=newuser.password)
+                   password=newuser.password,)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

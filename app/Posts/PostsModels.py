@@ -16,13 +16,12 @@ router = APIRouter()
 
 @router.get("/post/{id}", response_class=HTMLResponse)
 async def detail_post(id, request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
-    post = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id,
-                    User.fullname).join(User, Post.owner_id == User.id).filter(Post.id == id).first()
+    post = db.query(Post).filter(Post.id == id).first()
     comments = db.query(Comment.id, Comment.description, Comment.date_created, Comment.confirmed, Comment.post_id,
                         User.fullname).join(User, Comment.owner_id == User.id).filter(
         Comment.confirmed == True, Comment.post_id == id).order_by(Comment.date_created.desc()).all()
 
-    return templates.TemplateResponse("Post_with_detail.html",
+    return templates.TemplateResponse("revolve/standard-fullwidth.html",
                                       {"request": request, "post": post,
                                        "comments": comments, "usertype": user["usertype"]})
 

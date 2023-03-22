@@ -55,8 +55,9 @@ def get_user_from_cookie(req: Request):
 
 def authenticate_user(username: str, password: str, db):
     user_check = db.query(User).filter(User.username == username.lower()).first()
-    if user_check:
-        return user_check
+    
+    if user_check and  user_check.password == password:
+            return user_check
     else:
         raise HTTPException(status_code=404)
 

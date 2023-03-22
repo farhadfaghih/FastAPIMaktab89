@@ -44,4 +44,4 @@ async def sendmessage(messages: Messages, db=Depends(get_db)) -> None:
 
 @router.get("/about-us", response_class=HTMLResponse)
 async def aboutus(request: Request, user=Depends(get_user_from_cookie)):
-    return templates.TemplateResponse("About.html", {"request": request, "usertype": user["usertype"]})
+    return templates.TemplateResponse("revolve/about.html", {"request": request, "usertype": user["usertype"]})

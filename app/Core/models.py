@@ -26,7 +26,7 @@ class Post(database.Base):
     title = Column(String, index=True)
     body = Column(String, index=True)
     create_date = Column(String)
-    view_count = Column(Integer)
+    view_count = Column(Integer,default=0)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="posts")

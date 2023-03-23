@@ -17,8 +17,12 @@ router = APIRouter()
 async def root(request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
     recent_posts = db.query(Post).order_by(
         Post.create_date.desc()).limit(8).all()
+
+    most_visited_posts = db.query(Post).order_by(Post.view_count.desc()).limit(3).all()
+
     return templates.TemplateResponse("revolve/index.html",
-                                      {"request": request, "posts": recent_posts, "usertype": user["usertype"]})
+                                      {"request": request, "posts": recent_posts,
+                                       "most_visited_posts": most_visited_posts, "usertype": user["usertype"]})
 
 
 @router.get("/contact-us", response_class=HTMLResponse)

@@ -21,6 +21,11 @@ async def detail_post(id, request: Request, db=Depends(get_db), user=Depends(get
                         User.fullname).join(User, Comment.owner_id == User.id).filter(
         Comment.confirmed == True, Comment.post_id == id).order_by(Comment.date_created.desc()).all()
 
+    post.view_count += 1
+    db.add(post)
+    db.commit()
+    db.refresh(post)
+
     return templates.TemplateResponse("revolve/standard-fullwidth.html",
                                       {"request": request, "post": post,
                                        "comments": comments, "usertype": user["usertype"]})

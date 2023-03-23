@@ -21,9 +21,10 @@ async def superuser_dashboard(request: Request, db=Depends(get_db), user=Depends
         messages = db.query(message).all()
         comments = db.query(Comment).all()
         posts = db.query(Post).all()
+        users = db.query(User).all()
         return templates.TemplateResponse("Superuser_dashboard.html",
                                           {"request": request, "messages": messages, "comments": comments,
-                                           "posts": posts})
+                                           "posts": posts, "users": users})
     else:
         return templates.TemplateResponse("error-403/dist/index.html", {"request": request})
 
@@ -55,4 +56,24 @@ async def approve_a_message(comment_id: ModifyContent, db=Depends(get_db)) -> No
 async def delete_a_post(post_id: ModifyContent, db=Depends(get_db)) -> None:
     db_delete_post = db.query(Post).filter(Post.id == post_id.id).first()
     db.delete(db_delete_post)
+    db.commit()
+
+
+@router.patch("/users")
+async def change_a_user_access_level(user_id: ModifyContent, db=Depends(get_db)) -> None:
+    db_user = db.query(User).filter(User.id == user_id.id).first()
+    if db_user.is_admin is True:
+        db_user.is_admin = False
+    else:
+        db_user.is_admin = True
+
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+
+
+@router.delete("/users")
+async def delete_a_user(user_id: ModifyContent, db=Depends(get_db)) -> None:
+    db_delete_user = db.query(User).filter(User.id == user_id.id).first()
+    db.delete(db_delete_user)
     db.commit()

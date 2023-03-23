@@ -39,7 +39,7 @@ async def create_a_new_post(file: UploadFile, title=Form(), body=Form(), db=Depe
                 create_date=post_date, owner=usr)
     db.add(post)
     db.commit()
-    return RedirectResponse("/admin/dashboard", status_code=status.HTTP_302_FOUND)
+    return "success"
 
 
 @router.delete("/dashboard")

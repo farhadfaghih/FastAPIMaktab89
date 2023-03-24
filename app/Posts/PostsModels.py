@@ -20,7 +20,7 @@ async def detail_post(id, request: Request, db=Depends(get_db), user=Depends(get
     comments = db.query(Comment.id, Comment.description, Comment.date_created, Comment.confirmed, Comment.post_id,
                         User.fullname).join(User, Comment.owner_id == User.id).filter(
         Comment.confirmed == True, Comment.post_id == id).order_by(Comment.date_created.desc()).all()
-
+    print(post.view_count)
     post.view_count += 1
     db.add(post)
     db.commit()

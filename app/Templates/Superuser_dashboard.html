@@ -178,7 +178,32 @@
   
     
 
-
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseOne">
+          MANAGE USERS
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          {% for user in users %}
+          <li style="margin-left: 100px;">{{user.username}}  {{user.email}} 
+            <div style="float: right; margin-right: 100px;">
+              {% if user.is_admin == False %}
+            <button  class="btn btn-warning" id="{{user.id}}" onclick="deletepost(event, this)">PROMOTE TO ADMIN</button>
+              {% endif %}
+              {% if user.is_admin == True %}
+            <button  class="btn btn-warning" id="{{user.id}}" onclick="deletepost(event, this)">DEGRADE TO NORMAL USER</button>
+              {%endif%}
+            <button  class="btn btn-danger" id="{{user.id}}" onclick="deletepost(event, this)">DELETE USER</button>
+          </div>
+          </li>
+          <hr>
+          {%endfor%}
+        </div>
+      </div>
+    </div>
 
 <!-- 
     <div class="container text-center">

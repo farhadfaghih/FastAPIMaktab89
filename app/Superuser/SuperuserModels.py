@@ -21,7 +21,7 @@ async def superuser_dashboard(request: Request, db=Depends(get_db), user=Depends
         messages = db.query(message).all()
         comments = db.query(Comment).all()
         posts = db.query(Post).all()
-        users = db.query(User).all()
+        users = db.query(User).filter(User.is_superuser == 0).all()
         return templates.TemplateResponse("Superuser_dashboard.html",
                                           {"request": request, "messages": messages, "comments": comments,
                                            "posts": posts, "users": users})

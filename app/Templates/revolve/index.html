@@ -11,7 +11,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Revolve - Personal Magazine blog Template</title>
+	<title>Maktab 89- Group 2 blog</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -43,8 +43,8 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-4 text-center d-none d-lg-block">
-					<a class="navbar-brand " href="index.html">
-						Maktab
+					<a class="navbar-brand " href="/">
+						Maktab89
 					</a>
 				</div>
 
@@ -100,7 +100,7 @@
 							<li class="list-inline-item"><a href="https://facebook.com"><i class="ti-facebook"></i></a></li>
 							<li class="list-inline-item"><a href="https://twitter.com"><i class="ti-twitter"></i></a></li>
 							<li class="list-inline-item"><a href="https://linkedin.com"><i class="ti-linkedin"></i></a></li>
-							<li class="list-inline-item"><a href="https://ti-pinterest.com"><i class="ti-pinterest"></i></a></li>
+							<li class="list-inline-item"><a href="https://pinterest.com"><i class="ti-pinterest"></i></a></li>
 						</ul>
 					</div>
 				</div>
@@ -140,10 +140,11 @@
 	</section>
 <section>
 	<div style="text-align: center;">
-		<h2>
+		<hr>
+        <h2>
 			Recent posts
 		</h2>
-		<hr>
+
 	</div>
 </section>
 	<section class="section-padding">
@@ -188,7 +189,7 @@
 									<input type="email" class="form-control" placeholder="Email Address">
 								</div>
 								<div class="col-sm-3">
-									<a href="#" class="btn btn-dark ">Subscribe</a>
+									<a class="btn btn-dark text-white" onclick="alert('Coming soon!!!')">Subscribe</a>
 								</div>
 							</div>
 						</div>
@@ -200,12 +201,33 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<ul class="list-inline footer-socials-2 text-center">
-							<li class="list-inline-item"><a href="#">Privacy policy</a></li>
-							<li class="list-inline-item"><a href="#">Support</a></li>
-							<li class="list-inline-item"><a href="#">About</a></li>
-							<li class="list-inline-item"><a href="#">Contact</a></li>
-							<li class="list-inline-item"><a href="#">Terms</a></li>
-							<li class="list-inline-item"><a href="#">Category</a></li>
+                            <li class="list-inline-item">
+									<a href="/">Home</a>
+                            </li>
+                            <li class="list-inline-item">
+									<a href="/about-us">About</a>
+							</li>
+							<li class="list-inline-item">
+									<a href="/contact-us">Contact</a>
+							</li>
+							<li class="list-inline-item">
+									<a href="/allposts/">All posts</a>
+							</li>
+								  {%if usertype == "not_logged_in"%}
+							<li class="list-inline-item">
+									<a href="/login">Register/Login</a>
+							</li>
+								  {%endif%}
+								  {%if usertype == "admin" or usertype == "superuser"%}
+							<li class="list-inline-item">
+									<a href="{{usertype}}/dashboard">Dashboard</a>
+							</li>
+								  {%endif%}
+								  {%if usertype != "not_logged_in"%}
+							<li class="list-inline-item">
+									<a href="/logout">Logout</a>
+							</li>
+								  {%endif%}
 						</ul>
 					</div>
 				</div>

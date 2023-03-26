@@ -11,7 +11,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Revolve - Personal Magazine blog Template</title>
+	<title>{{ post.title }}</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -43,8 +43,8 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-4 text-center d-none d-lg-block">
-					<a class="navbar-brand " href="index.html">
-						Maktab
+					<a class="navbar-brand " href="/">
+						Maktab89
 					</a>
 				</div>
 
@@ -61,30 +61,30 @@
 						<div class="collapse navbar-collapse" id="navbar-collapse">
 							<ul id="menu" class="menu navbar-nav mx-auto">
 								<li class="nav-item">
-									<a class="nav-link" href="/">Home</a>
+									<a class="nav-link" href="../../">Home</a>
 								  </li>
 								<li class="nav-item">
-									<a class="nav-link" href="/about-us">About</a>
+									<a class="nav-link" href="../../about-us">About</a>
 								  </li>
 								  <li class="nav-item">
-									<a class="nav-link" href="/contact-us">Contact</a>
+									<a class="nav-link" href="../../contact-us">Contact</a>
 								  </li>
 								  <li class="nav-item">
-									<a class="nav-link" href="/allposts/">All posts</a>
+									<a class="nav-link" href="../../allposts/">All posts</a>
 								  </li>
 								  {%if usertype == "not_logged_in"%}
 								  <li class="nav-item">
-									<a class="nav-link" href="/login">Register/Login</a>
+									<a class="nav-link" href="../../login">Register/Login</a>
 								  </li>
 								  {%endif%}
 								  {%if usertype == "admin" or usertype == "superuser"%}
 								  <li class="nav-item">
-									<a class="nav-link" href="{{usertype}}/dashboard">Dashboard</a>
+									<a class="nav-link" href="../../{{usertype}}/dashboard">Dashboard</a>
 								  </li>
 								  {%endif%}
 								  {%if usertype != "not_logged_in"%}
 								  <li class="nav-item">
-									<a class="nav-link" href="/logout">Logout</a>
+									<a class="nav-link" href="../../logout">Logout</a>
 								  </li>
 								  {%endif%}
 								
@@ -97,10 +97,10 @@
 				<div class="col-lg-2 col-md-4 col-6">
 					<div class="header-socials-2 text-right d-none d-lg-block">
 						<ul class="list-inline mb-0">
-							<li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a></li>
-							<li class="list-inline-item"><a href="#"><i class="ti-twitter"></i></a></li>
-							<li class="list-inline-item"><a href="#"><i class="ti-linkedin"></i></a></li>
-							<li class="list-inline-item"><a href="#"><i class="ti-pinterest"></i></a></li>
+							<li class="list-inline-item"><a href="https://facebook.com"><i class="ti-facebook"></i></a></li>
+							<li class="list-inline-item"><a href="https://twitter.com"><i class="ti-twitter"></i></a></li>
+							<li class="list-inline-item"><a href="https://linkedin.com"><i class="ti-linkedin"></i></a></li>
+							<li class="list-inline-item"><a href="https://pinterest.com"><i class="ti-pinterest"></i></a></li>
 						</ul>
 					</div>
 				</div>

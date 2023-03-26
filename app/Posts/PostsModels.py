@@ -42,7 +42,8 @@ async def comment(user_comment: Comments, db=Depends(get_db), user=Depends(get_u
     """
     user_requesting = db.query(User).filter(User.username == user["username"]).first()
     post = db.query(Post).filter(Post.id == user_comment.post_id).first()
-    db_comment = Comment(description=user_comment.description, date_created=date.today(),owner=user_requesting,on_post=post)
+    db_comment = Comment(description=user_comment.description, date_created=date.today(), owner=user_requesting,
+                         on_post=post)
     db.add(db_comment)
     db.commit()
     db.refresh(db_comment)
@@ -50,7 +51,8 @@ async def comment(user_comment: Comments, db=Depends(get_db), user=Depends(get_u
 
 
 @router.get("/allposts/", response_class=HTMLResponse)
-async def all_posts(request: Request, db=Depends(get_db)):
+async def all_posts(request: Request, db=Depends(get_db), user=Depends(get_user_from_cookie)):
+    usertype = user["usertype"]
     allposts = db.query(Post.id, Post.image, Post.title, Post.body, Post.create_date, Post.owner_id,
                         User.fullname).join(User, Post.owner_id == User.id).order_by(Post.create_date.desc()).all()
-    return templates.TemplateResponse("Posts.html", {"request": request, "posts": allposts})
+    return templates.TemplateResponse("Posts.html", {"request": request, "posts": allposts, "usertype": usertype})

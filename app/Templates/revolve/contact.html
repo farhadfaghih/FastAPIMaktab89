@@ -11,7 +11,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Revolve - Personal Magazine blog Template</title>
+    <title>Contact-us</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -44,8 +44,8 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-4 text-center d-none d-lg-block">
-					<a class="navbar-brand " href="index.html">
-						Maktab
+					<a class="navbar-brand " href="/">
+						Maktab89
 					</a>
 				</div>
 
@@ -101,7 +101,7 @@
 							<li class="list-inline-item"><a href="https://facebook.com"><i class="ti-facebook"></i></a></li>
 							<li class="list-inline-item"><a href="https://twitter.com"><i class="ti-twitter"></i></a></li>
 							<li class="list-inline-item"><a href="https://linkedin.com"><i class="ti-linkedin"></i></a></li>
-							<li class="list-inline-item"><a href="https://ti-pinterest.com"><i class="ti-pinterest"></i></a></li>
+							<li class="list-inline-item"><a href="https://pinterest.com"><i class="ti-pinterest"></i></a></li>
 						</ul>
 					</div>
 				</div>
@@ -130,19 +130,6 @@
     </div>
     <!--search overlay end-->
 
-    <div class="breadcrumb-wrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="text-center">
-                        <h2 class="lg-title">Contact</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <section class="pt-5 padding-bottom">
         <div class="container">
             <div class="row">
@@ -157,10 +144,6 @@
 
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
-                            <p class="mt-5 mb-5">Something splashing about in the pool a little way off, and she swam
-                                nearer to make out what it was: at first she thought it must be a walrus or
-                                hippopotamus, but then she remembered how small she was now, and she soon made out that
-                                it was only a mouse that had slipped in like herself.</p>
 
                             <h2 class="mb-4">Get In Touch</h2>
 
@@ -204,46 +187,73 @@
 
 
     <!--footer start-->
-    <footer class="footer-section bg-grey">
-        <div class="instagram-photo-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4 class="text-center">Follow in Instagram</h4>
-                    </div>
-                </div>
+    	<section class="footer-2 section-padding gray-bg pb-5">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6">
+					<div class="subscribe-footer text-center">
+						<div class="form-group mb-0">
+							<h2 class="mb-3">Subscribe Newsletter</h2>
+							<p class="mb-4">Subscribe my Newsletter for new blog posts , tips and info.
+							<p>
+							<div class="form-group form-row align-items-center mb-0">
+								<div class="col-sm-9">
+									<input type="email" class="form-control" placeholder="Email Address">
+								</div>
+								<div class="col-sm-3">
+									<a class="btn btn-dark text-white" onclick="alert('Coming soon!!!')">Subscribe</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-                <div class="row no-gutters" id="instafeed">
-
-                </div>
-            </div>
-        </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="mb-4">
-                        <h2 class="footer-logo">Revolve.</h2>
-                    </div>
-                    <ul class="list-inline footer-socials">
-                        <li class="list-inline-item"><a href="#"><i class="ti-facebook mr-2"></i>Facebook</a></li>
-                        <li class="list-inline-item"><a href="#"><i class="ti-twitter mr-2"></i>Twitter</a></li>
-                        <li class="list-inline-item"><a href="#"><i class="ti-linkedin mr-2"></i>Linkedin</a></li>
-                        <li class="list-inline-item"><a href="#"><i class="ti-pinterest mr-2"></i>Pinterest</a></li>
-                        <li class="list-inline-item"><a href="#"><i class="ti-github mr-2"></i>Github</a></li>
-                        <li class="list-inline-item"><a href="#"><i class="ti-instagram mr-2"></i>Instrgram</a></li>
-                        <li class="list-inline-item"><a href="#"><i class="ti-rss mr-2"></i>rss</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-12 text-center">
-                    <p class="copyright">© Copyright 2019 - Revolve. All Rights Reserved. Distribution <a
-                            class="text-white" href="https://themewagon.com">ThemeWagon.</a></p>
-                </div>
-            </div>
-        </div>
-    </footer>
+			<div class="footer-btm mt-5 pt-4 border-top">
+				<div class="row">
+					<div class="col-lg-12">
+						<ul class="list-inline footer-socials-2 text-center">
+                            <li class="list-inline-item">
+									<a href="/">Home</a>
+                            </li>
+                            <li class="list-inline-item">
+									<a href="/about-us">About</a>
+							</li>
+							<li class="list-inline-item">
+									<a href="/contact-us">Contact</a>
+							</li>
+							<li class="list-inline-item">
+									<a href="/allposts/">All posts</a>
+							</li>
+								  {%if usertype == "not_logged_in"%}
+							<li class="list-inline-item">
+									<a href="/login">Register/Login</a>
+							</li>
+								  {%endif%}
+								  {%if usertype == "admin" or usertype == "superuser"%}
+							<li class="list-inline-item">
+									<a href="{{usertype}}/dashboard">Dashboard</a>
+							</li>
+								  {%endif%}
+								  {%if usertype != "not_logged_in"%}
+							<li class="list-inline-item">
+									<a href="/logout">Logout</a>
+							</li>
+								  {%endif%}
+						</ul>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-lg-6">
+						<div class="copyright text-center ">
+							@ copyright all reserved to <a href="https://themefisher.com/">themefisher.com</a>-2019 Distribution <a
+								href="https://themewagon.com">ThemeWagon.</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
     <!--footer end-->
 
     <!-- THEME JAVASCRIPT FILES

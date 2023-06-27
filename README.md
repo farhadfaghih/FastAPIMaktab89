@@ -1,7 +1,6 @@
 # FastAPI-weblog-project
 
-> this project is about an online shop that has a weblog for sharing new product from suppliers you can have just one submitted shop and manage that shop .
-<!-- > Live demo [_here_](https://www.example.com). <!-- If you have the project hosted somewhere, include the link here. -->
+> A simple blog with fast API.
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -9,33 +8,26 @@
 * [Features](#features)
 * [Screenshots](#screenshots)
 * [Setup](#setup)
-* [Usage](#usage)
 * [Project Status](#project-status)
 * [Room for Improvement](#room-for-improvement)
 * [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
-<!-- * [License](#license) -->
 
 
 ## General Information
-- Provide general information about your project here.
-- What problem does it (intend to) solve?
-- What is the purpose of your project?
-- Why did you undertake it?
-<!-- You don't have to answer all the questions - just the ones relevant to your project. -->
+This project is actually a blog where admins can post and users can see the posts and if they are logged in comment on them.
 
 
 ## Technologies Used
-- Tech 1 - version 1.0
+- Python - version 3.10
 - Tech 2 - version 2.0
 - Tech 3 - version 3.0
 
 
 ## Features
 List the ready features here:
-- Awesome feature 1
-- Awesome feature 2
-- Awesome feature 3
+- Simple UI
+- Use JWT to improve its security
 
 
 ## Screenshots
@@ -44,9 +36,21 @@ List the ready features here:
 
 
 ## Setup
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
+This project has several requirement packages that listed in requirements.txt file in project root directory.  
 
-Proceed to describe how to install / setup one's local environment / get started with the project.
+To start work with project:  
+
+1- Clone the project repo with `git clone`.
+
+![Clone](https://github.com/Smrazavi1991/FastAPI-weblog-project/assets/121284960/897252c0-7ca2-41d2-9b28-1e1fd6c38fe7)
+
+2- Cd to project root directory "app" and create a virtual environment (with name for example 'venv') with `python -m venv venv` and activate it.
+
+![create and activate venv](https://github.com/Smrazavi1991/FastAPI-weblog-project/assets/121284960/061c2bd0-c94f-4298-9f79-f001c00bdd5e)
+
+3-  Install project requirement packages with `pip install -r requirements.txt`
+
+
 
 
 ## Usage

@@ -3,10 +3,10 @@ from datetime import date
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-from app.Core.models import *
-from app.Core.dependencies import *
+from Core.models import *
+from Core.dependencies import *
 from pathlib import Path
-from app.Auth.AuthModels import get_user_from_cookie
+from Auth.AuthModels import get_user_from_cookie
 from .Schema import Comments
 
 BASE_PATH = Path(__file__).resolve().parent.parent

@@ -12,8 +12,8 @@ from pydantic import BaseModel
 import sys
 
 sys.path.append("..")
-from app.Core.models import *
-from app.Core.dependencies import get_db
+from Core.models import *
+from Core.dependencies import get_db
 
 # pip install "python-jose[cryptography]"
 # pip install "passlib[bcrypt]"

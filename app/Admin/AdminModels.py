@@ -7,9 +7,9 @@ from .Schema import NewPost, PostID
 import sys
 
 sys.path.append("..")
-from app.Core.dependencies import *
-from app.Core.models import *
-from app.Auth.AuthModels import get_user_from_cookie
+from Core.dependencies import *
+from Core.models import *
+from Auth.AuthModels import get_user_from_cookie
 # pip install python-multipart.
 from starlette import status
 

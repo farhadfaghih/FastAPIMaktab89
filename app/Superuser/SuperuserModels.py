@@ -6,9 +6,9 @@ import sys
 from .Schema import ModifyContent
 
 sys.path.append("..")
-from app.Core.dependencies import *
-from app.Core.models import *
-from app.Auth.AuthModels import get_user_from_cookie
+from Core.dependencies import *
+from Core.models import *
+from Auth.AuthModels import get_user_from_cookie
 
 BASE_PATH = Path(__file__).resolve().parent.parent
 templates = Jinja2Templates(directory=str(BASE_PATH / "Templates"))

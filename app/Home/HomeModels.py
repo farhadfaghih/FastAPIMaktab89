@@ -3,9 +3,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from pathlib import Path
 from .Schema import Messages
-from app.Core.models import *
-from app.Core.dependencies import *
-from app.Auth.AuthModels import get_user_from_cookie
+from Core.models import *
+from Core.dependencies import *
+from Auth.AuthModels import get_user_from_cookie
 from datetime import date
 
 BASE_PATH = Path(__file__).resolve().parent.parent
